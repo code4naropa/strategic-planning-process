@@ -40,11 +40,11 @@ dennis = User.create(
 )
 
 # Create some posts
-100.times do |i|
+10.times do |i|
   Post.create(:author => User.order("RANDOM()").first, :content => "Post #{i}\nLorem Ipsum Dolorem")
 end
 
 ### Democracy
 
 # Create a Community
-Democracy::Community.create(name: 'Test Community')
+Democracy::Community.create(name: 'Strategic Planning Process')
