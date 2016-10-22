@@ -21,19 +21,6 @@ class User < ApplicationRecord
   # has_many :liked_posts, :through => :likes, :source => :likable,  :source_type => 'Post'
   # has_many :liked_comments, :through => :likes, :source => :likable,  :source_type => 'Comment'
 
-  # ## Private Conversations / Participantships in Private Conversations
-  has_many :participantships_in_private_conversations,
-    :class_name => "ParticipantshipInPrivateConversation",
-    :foreign_key => "participant_id",
-    :dependent => :destroy,
-    :inverse_of => :participant
-  has_many :private_conversations, :through => :participantships_in_private_conversations, :source => :private_conversation
-
-  # ## Private Messages
-  #has_many :private_messages, :through => :private_conversations, :source => :messages
-  has_many :private_messages_sent, :class_name => "PrivateMessage",
-    :foreign_key => "sender_id", :inverse_of => :sender, dependent: :destroy
-
   # ## Friendship Requests
   has_many :friendship_requests_sent,
     :class_name => "FriendshipRequest",
@@ -104,14 +91,6 @@ class User < ApplicationRecord
   # We want to always use username in routes
   def to_param
     username
-  end
-
-  # gets unread conversations
-  def unread_private_conversations
-    private_conversations.most_recent_activity_first.
-      where('private_conversations.updated_at > participantship_in_private_conversations.read_at ' +
-      'OR ' +
-      'participantship_in_private_conversations.read_at IS NULL')
   end
 
   def friends

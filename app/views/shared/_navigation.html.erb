@@ -21,17 +21,6 @@
             </li>
 
             <li>
-              <%= link_to private_conversations_home_path, class: 'tooltipped', data: {position: 'bottom', delay: '50', tooltip: 'Conversations'} do %>
-                <%= material_icon.chat_bubble %>
-                <% if @current_user.unread_private_conversations.size > 0 %>
-                  <span class="white red-text z-depth-1 badge">
-                    <%= @current_user.unread_private_conversations.size %>
-                  </span>
-                <% end %>
-              <% end %>
-            </li>
-
-            <li>
               <%= link_to logout_path, class: 'tooltipped', data: {position: 'bottom', delay: '50', tooltip: 'Logout'} do %>
                 <%= material_icon.power_settings_new %>
               <% end %>

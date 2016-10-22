@@ -21,17 +21,6 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:likes).dependent(:destroy).
       with_foreign_key("liker_id")}
 
-    it { is_expected.to have_many(:participantships_in_private_conversations).
-      dependent(:destroy).class_name("ParticipantshipInPrivateConversation").
-      with_foreign_key("participant_id").inverse_of(:participant) }
-    it { is_expected.to have_many(:private_conversations).dependent(false).
-      through(:participantships_in_private_conversations).
-      source(:private_conversation) }
-
-    it { is_expected.to have_many(:private_messages_sent).dependent(:destroy).
-      class_name("PrivateMessage").with_foreign_key("sender_id").
-      inverse_of(:sender) }
-
     it { is_expected.to have_many(:friendship_requests_sent).
       dependent(:destroy).class_name("FriendshipRequest").
       with_foreign_key("sender_id") }
@@ -183,41 +172,6 @@ RSpec.describe User, type: :model do
         is_expected.not_to have_sent_friend_request_to other_user
       end
     end
-  end
-
-  describe "#unread_private_conversations" do
-    before { user.save }
-    let!(:conversations) { create_list(:private_conversation, 5, :sender => user) }
-
-    it "returns conversations in the order of most recent activity" do
-      expect(user.private_conversations).
-      to receive(:most_recent_activity_first) { user.private_conversations }
-      user.unread_private_conversations
-    end
-
-    it "returns conversations that were never read" do
-      set_last_read_of_participantships { nil }
-      expect(user.unread_private_conversations).to match_array(conversations)
-    end
-
-    it "returns conversations that are unread" do
-      set_last_read_of_participantships do |p|
-        p.private_conversation.updated_at - 1.second
-      end
-      expect(user.unread_private_conversations).to match_array(conversations)
-    end
-
-    it "does not return read conversations" do
-      set_last_read_of_participantships{ |p| p.private_conversation.updated_at }
-      expect(user.unread_private_conversations).to eq( [] )
-    end
-
-    def set_last_read_of_participantships
-      user.participantships_in_private_conversations.each do |participantship|
-        participantship.update_attributes(read_at: yield(participantship) )
-      end
-    end
-
   end
 
   describe ".to_user" do
