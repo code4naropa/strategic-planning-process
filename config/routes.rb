@@ -20,15 +20,6 @@ Rails.application.routes.draw do
   get '/logout' => 'sessions#destroy'
   get '/confirm_your_registration' => 'registrations#confirmation_reminder', as: :confirm_registration_reminder
 
-  # FriendshipRequests
-  get 'friend-requests' => 'friendship_requests#index', as: :friendship_requests_received
-  post 'friendship-request/:username' => 'friendship_requests#create', as: :add_friend
-  delete 'friendship-request/:username' => 'friendship_requests#destroy', as: :reject_friendship_request
-
-  # Friendships
-  post 'friendship/:username' => 'friendships#create', as: :accept_friendship_request
-  delete 'friendship/:username' => 'friendships#destroy', as: :end_friendship
-
   # Posts
   resources :posts, only: [:new, :create, :show, :destroy], :path => "post"
 

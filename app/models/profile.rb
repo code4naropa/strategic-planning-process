@@ -24,9 +24,6 @@ class Profile < ApplicationRecord
     # network user: network profile
     return true if self.is_network_only?
 
-    # network user: friend's profile
-    return true if self.is_private? and user.has_friendship_with?(self.user)
-
     # other cases: false
     return false
   end

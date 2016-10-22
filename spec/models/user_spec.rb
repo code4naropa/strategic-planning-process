@@ -21,25 +21,6 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:likes).dependent(:destroy).
       with_foreign_key("liker_id")}
 
-    it { is_expected.to have_many(:friendship_requests_sent).
-      dependent(:destroy).class_name("FriendshipRequest").
-      with_foreign_key("sender_id") }
-    it { is_expected.to have_many(:friendship_requests_received).
-      dependent(:destroy).class_name("FriendshipRequest").
-      with_foreign_key("recipient_id") }
-
-    it { is_expected.to have_many(:friendships_initiated).
-      dependent(:destroy).class_name("Friendship").
-      with_foreign_key("initiator_id") }
-    it { is_expected.to have_many(:friendships_accepted).
-      dependent(:destroy).class_name("Friendship").
-      with_foreign_key("acceptor_id") }
-
-    it { is_expected.to have_many(:friends_found).dependent(false).
-      through(:friendships_initiated).source(:acceptor) }
-    it { is_expected.to have_many(:friends_made).dependent(false).
-      through(:friendships_accepted).source(:initiator) }
-
   end
 
   describe "validations" do
@@ -93,84 +74,6 @@ RSpec.describe User, type: :model do
   describe "#to_param" do
     it "returns the username" do
       expect(user.to_param).to eq(user.username)
-    end
-  end
-
-  describe "#friends" do
-    let(:friends_made) { build_stubbed_list(:user, 3) }
-    let(:friends_found) { build_stubbed_list(:user, 3) }
-    before do
-      user.friends_made = friends_made
-      user.friends_found = friends_found
-    end
-
-    it "returns friends found and friends made" do
-      expect(user.friends).to match_array(friends_made + friends_found)
-    end
-
-  end
-
-  describe "#has_friendship_with?" do
-    let(:other_user) { build_stubbed(:user) }
-
-    context "when user has friendship" do
-      before { allow(user).to receive(:friends) { [other_user] } }
-
-      it "returns true" do
-        is_expected.to have_friendship_with other_user
-      end
-    end
-
-    context "when user does not have friendship" do
-      before { allow(user).to receive(:friends) { [] } }
-
-      it "returns false" do
-        is_expected.not_to have_friendship_with other_user
-      end
-    end
-  end
-
-  describe "#has_received_friend_request_from?" do
-    let(:other_user) { build(:user) }
-
-    context "when user has received friend request" do
-      before do
-        create(:friendship_request, :sender => other_user, :recipient => user)
-      end
-
-      it "returns true" do
-        is_expected.to have_received_friend_request_from other_user
-      end
-    end
-
-    context "when user does not have received friend request" do
-      before { FriendshipRequest.destroy_all }
-
-      it "returns false" do
-        is_expected.not_to have_received_friend_request_from other_user
-      end
-    end
-  end
-
-  describe "#has_sent_friend_request_to?" do
-    let(:other_user) { build(:user) }
-
-    context "when user has sent friend request" do
-      before do
-        create(:friendship_request, :sender => user, :recipient => other_user)
-      end
-
-      it "returns true" do
-        is_expected.to have_sent_friend_request_to other_user
-      end
-    end
-
-    context "when user does not have sent friend request" do
-      before { FriendshipRequest.destroy_all }
-
-      it "returns false" do
-        is_expected.not_to have_sent_friend_request_to other_user
-      end
     end
   end
 

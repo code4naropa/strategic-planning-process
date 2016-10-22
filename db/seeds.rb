@@ -43,11 +43,6 @@ dennis = User.create(
   Profile.create(:user => user)
 end
 
-# Create Friendships between users
-Friendship.create(:initiator => alice, :acceptor => bob)
-Friendship.create(:initiator => alice, :acceptor => carla)
-Friendship.create(:initiator => alice, :acceptor => dennis)
-
 # Create some posts
 100.times do |i|
   Post.create(:author => User.order("RANDOM()").first, :content => "Post #{i}\nLorem Ipsum Dolorem")

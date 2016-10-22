@@ -27,7 +27,6 @@ RSpec.describe Profile, type: :model do
     subject(:profile) { create(:profile)}
     let(:anonymous_user) { nil }
     let(:registered_user) { build_stubbed(:user) }
-    let(:friend) { create(:friendship, initiator: profile.user, acceptor: create(:user)).acceptor }
     let(:profile_owner) { profile.user }
 
     context "when visibility is public" do
@@ -38,9 +37,6 @@ RSpec.describe Profile, type: :model do
       end
       it "is viewable by registered users" do
         is_expected.to be_viewable_by registered_user
-      end
-      it "is viewable by friends" do
-        is_expected.to be_viewable_by friend
       end
       it "is viewable by profile owner" do
         is_expected.to be_viewable_by profile_owner
@@ -56,9 +52,6 @@ RSpec.describe Profile, type: :model do
       it "is viewable by registered users" do
         is_expected.to be_viewable_by registered_user
       end
-      it "is viewable by friends" do
-        is_expected.to be_viewable_by friend
-      end
       it "is viewable by profile owner" do
         is_expected.to be_viewable_by profile_owner
       end
@@ -72,9 +65,6 @@ RSpec.describe Profile, type: :model do
       end
       it "is not viewable by registered users" do
         is_expected.not_to be_viewable_by registered_user
-      end
-      it "is viewable by friends" do
-        is_expected.to be_viewable_by friend
       end
       it "is viewable by profile owner" do
         is_expected.to be_viewable_by profile_owner

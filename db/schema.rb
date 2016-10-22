@@ -52,24 +52,6 @@ ActiveRecord::Schema.define(version: 20161016184819) do
     t.index ["created_at"], name: "index_democracy_community_decisions_on_created_at", using: :btree
   end
 
-  create_table "friendship_requests", force: :cascade do |t|
-    t.integer  "sender_id"
-    t.integer  "recipient_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["recipient_id"], name: "index_friendship_requests_on_recipient_id", using: :btree
-    t.index ["sender_id"], name: "index_friendship_requests_on_sender_id", using: :btree
-  end
-
-  create_table "friendships", force: :cascade do |t|
-    t.integer  "initiator_id"
-    t.integer  "acceptor_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["acceptor_id"], name: "index_friendships_on_acceptor_id", using: :btree
-    t.index ["initiator_id"], name: "index_friendships_on_initiator_id", using: :btree
-  end
-
   create_table "likes", force: :cascade do |t|
     t.integer  "liker_id"
     t.uuid     "likable_id"
@@ -127,10 +109,6 @@ ActiveRecord::Schema.define(version: 20161016184819) do
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "democracy_community_decisions", "democracy_communities", column: "community_id"
   add_foreign_key "democracy_community_decisions", "users", column: "author_id"
-  add_foreign_key "friendship_requests", "users", column: "recipient_id"
-  add_foreign_key "friendship_requests", "users", column: "sender_id"
-  add_foreign_key "friendships", "users", column: "acceptor_id"
-  add_foreign_key "friendships", "users", column: "initiator_id"
   add_foreign_key "likes", "users", column: "liker_id"
   add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "profiles", "users"
