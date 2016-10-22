@@ -1,7 +1,5 @@
 class RegistrationsController < ApplicationController
 
-  layout "fluid_with_side_nav", only: [:confirm]
-
   def new
     @user = User.new
   end

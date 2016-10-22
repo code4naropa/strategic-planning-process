@@ -1,8 +1,6 @@
 class FeedsController < ApplicationController
   before_action :current_user
 
-  layout "fluid_with_side_nav"
-
   # GET /
   def show
 
