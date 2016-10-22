@@ -1,6 +1,6 @@
 class RegistrationsController < ApplicationController
 
-  layout "static_info_message", only: [:confirm]
+  layout "fluid_with_side_nav", only: [:confirm]
 
   def new
     @user = User.new
