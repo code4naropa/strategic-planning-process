@@ -43,8 +43,8 @@ Rails.application.routes.draw do
   # Votes Path
   resources :votes, only: [:create, :update, :destroy], :path => "vote"
 
-  # Feed (merged into root path)
-  # get 'feed', to: 'feeds#show', as: :feed
+  # Conversations
+  get 'conversations', to: 'feeds#show', as: :feed
 
   ### Democracy
   scope module: 'democracy', shallow: true do
