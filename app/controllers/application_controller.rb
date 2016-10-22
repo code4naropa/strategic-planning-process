@@ -28,4 +28,9 @@ class ApplicationController < ActionController::Base
     Rails.application.routes.url_helpers.send("#{object.class.to_s.split("::").last.downcase}_path", object)
   end
 
+  # Initialize our community
+  def set_community
+    @community = Democracy::Community.first
+  end
+
 end

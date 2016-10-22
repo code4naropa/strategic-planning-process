@@ -65,9 +65,7 @@ Rails.application.routes.draw do
   # Profiles -- this must be last
   get '/:username', to: 'profiles#show', as: :profile
 
-  # we need to route people based on whether or not they are logged in
-  root 'feeds#show', constraints: AuthenticationConstraint.new, as: :feed
-
-  root 'static#home'
+  # Root is our community
+  root 'democracy/communities#show'
 
 end
