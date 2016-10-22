@@ -1,9 +1,6 @@
 <%=
-  if @community
-    render "shared/side_navigation/community"
-  else
-    render "shared/side_navigation/user"
-  end
+  @community ||= Democracy::Community.first
+  render "shared/side_navigation/community"
 %>
 
 <script type="text/javascript">

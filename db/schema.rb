@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 20161016184819) do
     t.integer  "author_id"
     t.uuid     "commentable_id"
     t.string   "content"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.integer  "likes_count"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "likes_count",      default: 0
     t.string   "commentable_type"
     t.index ["author_id"], name: "index_comments_on_author_id", using: :btree
     t.index ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
@@ -52,24 +52,6 @@ ActiveRecord::Schema.define(version: 20161016184819) do
     t.index ["created_at"], name: "index_democracy_community_decisions_on_created_at", using: :btree
   end
 
-  create_table "friendship_requests", force: :cascade do |t|
-    t.integer  "sender_id"
-    t.integer  "recipient_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["recipient_id"], name: "index_friendship_requests_on_recipient_id", using: :btree
-    t.index ["sender_id"], name: "index_friendship_requests_on_sender_id", using: :btree
-  end
-
-  create_table "friendships", force: :cascade do |t|
-    t.integer  "initiator_id"
-    t.integer  "acceptor_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["acceptor_id"], name: "index_friendships_on_acceptor_id", using: :btree
-    t.index ["initiator_id"], name: "index_friendships_on_initiator_id", using: :btree
-  end
-
   create_table "likes", force: :cascade do |t|
     t.integer  "liker_id"
     t.uuid     "likable_id"
@@ -80,60 +62,14 @@ ActiveRecord::Schema.define(version: 20161016184819) do
     t.index ["liker_id"], name: "index_likes_on_liker_id", using: :btree
   end
 
-  create_table "participantship_in_private_conversations", force: :cascade do |t|
-    t.integer  "participant_id"
-    t.uuid     "private_conversation_id"
-    t.datetime "read_at"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.index ["participant_id", "private_conversation_id"], name: "index_participantship_in_private_conversations_first", unique: true, using: :btree
-    t.index ["private_conversation_id"], name: "index_participantship_in_private_conversations_second", using: :btree
-  end
-
-  create_table "pending_newsletter_subscriptions", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "confirmation_token"
-    t.string   "signup_url"
-    t.string   "ip_address"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.index ["confirmation_token"], name: "index_pending_newsletter_subscriptions_on_confirmation_token", unique: true, using: :btree
-    t.index ["email"], name: "index_pending_newsletter_subscriptions_on_email", unique: true, using: :btree
-  end
-
   create_table "posts", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.integer  "author_id"
-    t.text     "content",     null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "likes_count"
-    t.index ["author_id"], name: "index_posts_on_author_id", using: :btree
-    t.index ["created_at"], name: "index_posts_on_created_at", using: :btree
-  end
-
-  create_table "private_conversations", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["created_at"], name: "index_private_conversations_on_created_at", using: :btree
-  end
-
-  create_table "private_messages", force: :cascade do |t|
-    t.uuid     "private_conversation_id"
-    t.integer  "sender_id"
-    t.string   "content"
+    t.text     "content",                 null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
-    t.index ["private_conversation_id"], name: "index_private_messages_on_private_conversation_id", using: :btree
-    t.index ["sender_id"], name: "index_private_messages_on_sender_id", using: :btree
-  end
-
-  create_table "profiles", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "visibility", default: 0
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
+    t.integer  "likes_count", default: 0
+    t.index ["author_id"], name: "index_posts_on_author_id", using: :btree
+    t.index ["created_at"], name: "index_posts_on_created_at", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -165,16 +101,7 @@ ActiveRecord::Schema.define(version: 20161016184819) do
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "democracy_community_decisions", "democracy_communities", column: "community_id"
   add_foreign_key "democracy_community_decisions", "users", column: "author_id"
-  add_foreign_key "friendship_requests", "users", column: "recipient_id"
-  add_foreign_key "friendship_requests", "users", column: "sender_id"
-  add_foreign_key "friendships", "users", column: "acceptor_id"
-  add_foreign_key "friendships", "users", column: "initiator_id"
   add_foreign_key "likes", "users", column: "liker_id"
-  add_foreign_key "participantship_in_private_conversations", "private_conversations"
-  add_foreign_key "participantship_in_private_conversations", "users", column: "participant_id"
   add_foreign_key "posts", "users", column: "author_id"
-  add_foreign_key "private_messages", "private_conversations"
-  add_foreign_key "private_messages", "users", column: "sender_id"
-  add_foreign_key "profiles", "users"
   add_foreign_key "votes", "users", column: "voter_id"
 end

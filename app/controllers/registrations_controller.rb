@@ -1,14 +1,11 @@
 class RegistrationsController < ApplicationController
 
-  layout "static_info_message", only: [:confirm]
-
   def new
     @user = User.new
   end
 
   def create
     @user = User.new(registration_params)
-    @user.build_profile
 
     if @user.save
       @user.send_registration_email

@@ -4,18 +4,14 @@
     <div class="community_decision z-depth-2">
 
       <%# PROFILE PICTURE %>
-      <%= link_to profile_path @decision.author do %>
-        <div class="author_image z-depth-1 grey">
-          <%= image_tag profile_picture @decision.author.username %>
-        </div>
-      <% end %>
+      <div class="author_image z-depth-1 grey">
+        <%= image_tag profile_picture @decision.author.username %>
+      </div>
 
       <%# AUTHOR NAME %>
-      <%= link_to profile_path @decision.author do %>
-        <div class="author_name z-depth-1 indigo white-text">
-          <%= @decision.author.name %>
-        </div>
-      <% end %>
+      <div class="author_name z-depth-1 indigo white-text">
+        <%= @decision.author.name %>
+      </div>
 
       <%# CONTENT %>
       <div class="content">

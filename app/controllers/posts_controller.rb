@@ -31,7 +31,7 @@ class PostsController < ApplicationController
   # DELETE /post/1
   def destroy
     @post.destroy
-    redirect_to profile_path(@current_user), notice: 'Post was successfully destroyed.'
+    redirect_to feed_path, notice: 'Post was successfully destroyed.'
   end
 
   private
