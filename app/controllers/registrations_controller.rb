@@ -8,7 +8,6 @@ class RegistrationsController < ApplicationController
 
   def create
     @user = User.new(registration_params)
-    @user.build_profile
 
     if @user.save
       @user.send_registration_email

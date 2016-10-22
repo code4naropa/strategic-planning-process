@@ -72,14 +72,6 @@ ActiveRecord::Schema.define(version: 20161016184819) do
     t.index ["created_at"], name: "index_posts_on_created_at", using: :btree
   end
 
-  create_table "profiles", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "visibility", default: 0
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
-  end
-
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.citext   "username",                               null: false
@@ -111,6 +103,5 @@ ActiveRecord::Schema.define(version: 20161016184819) do
   add_foreign_key "democracy_community_decisions", "users", column: "author_id"
   add_foreign_key "likes", "users", column: "liker_id"
   add_foreign_key "posts", "users", column: "author_id"
-  add_foreign_key "profiles", "users"
   add_foreign_key "votes", "users", column: "voter_id"
 end

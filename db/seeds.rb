@@ -39,10 +39,6 @@ dennis = User.create(
 :confirmed_registration => true
 )
 
-[alice, bob, carla, dennis].each do |user|
-  Profile.create(:user => user)
-end
-
 # Create some posts
 100.times do |i|
   Post.create(:author => User.order("RANDOM()").first, :content => "Post #{i}\nLorem Ipsum Dolorem")

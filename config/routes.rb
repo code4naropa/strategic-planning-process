@@ -44,9 +44,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # Profiles -- this must be last
-  get '/:username', to: 'profiles#show', as: :profile
-
   # Root is our community
   root 'democracy/communities#show'
 

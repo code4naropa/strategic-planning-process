@@ -5,9 +5,6 @@ class User < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   # # Associations
-  # ## Profile
-  has_one :profile, inverse_of: :user, dependent: :destroy
-
   # ## Posts
   has_many :posts, :foreign_key => "author_id", dependent: :destroy
 
@@ -22,8 +19,6 @@ class User < ApplicationRecord
   # has_many :liked_comments, :through => :likes, :source => :likable,  :source_type => 'Comment'
 
   # # Validations
-  validates :profile, presence: true
-
   # name
   validates :name, presence: true
 
