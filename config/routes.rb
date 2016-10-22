@@ -9,8 +9,9 @@ end
 Rails.application.routes.draw do
 
   # Registrations
-  resources :registrations, only: [:new, :create] do
+  resource :signup, controller: 'registrations', as: 'registration', only: [:new, :create], path_names: { new: '' } do
     get 'confirm', on: :collection
+    get 'confirmation_reminder', on: :collection
     post 'resend_confirmation', on: :collection, :constraints => { :format => 'js' }
   end
 
@@ -18,7 +19,6 @@ Rails.application.routes.draw do
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   get '/logout' => 'sessions#destroy'
-  get '/confirm_your_registration' => 'registrations#confirmation_reminder', as: :confirm_registration_reminder
 
   # Posts
   resources :posts, only: [:new, :create, :show, :destroy], :path => "post"

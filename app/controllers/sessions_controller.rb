@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
 
       # redirect to confirmation reminder if user is not confirmed yet
-      redirect_to confirm_registration_reminder_path and return unless user.confirmed_registration
+      redirect_to confirmation_reminder_registration_path and return unless user.confirmed_registration
 
       redirect_to root_path
 
