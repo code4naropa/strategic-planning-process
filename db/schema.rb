@@ -80,18 +80,6 @@ ActiveRecord::Schema.define(version: 20161016184819) do
     t.index ["liker_id"], name: "index_likes_on_liker_id", using: :btree
   end
 
-  create_table "pending_newsletter_subscriptions", force: :cascade do |t|
-    t.string   "name"
-    t.string   "email"
-    t.string   "confirmation_token"
-    t.string   "signup_url"
-    t.string   "ip_address"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.index ["confirmation_token"], name: "index_pending_newsletter_subscriptions_on_confirmation_token", unique: true, using: :btree
-    t.index ["email"], name: "index_pending_newsletter_subscriptions_on_email", unique: true, using: :btree
-  end
-
   create_table "posts", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.integer  "author_id"
     t.text     "content",                 null: false

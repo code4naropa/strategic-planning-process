@@ -8,11 +8,6 @@ end
 
 Rails.application.routes.draw do
 
-  # External
-  resources :pending_newsletter_subscriptions, only: :create do
-    get 'confirm', on: :collection
-  end
-
   # Registrations
   resources :registrations, only: [:new, :create] do
     get 'confirm', on: :collection
