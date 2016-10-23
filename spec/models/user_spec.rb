@@ -11,8 +11,6 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_secure_password }
 
   describe "associations" do
-    it { is_expected.to have_one(:profile).dependent(:destroy).
-      inverse_of(:user)}
     it { is_expected.to have_many(:posts).dependent(:destroy).
       with_foreign_key("author_id")}
     it { is_expected.to have_many(:comments).dependent(:destroy).
@@ -21,40 +19,9 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:likes).dependent(:destroy).
       with_foreign_key("liker_id")}
 
-    it { is_expected.to have_many(:participantships_in_private_conversations).
-      dependent(:destroy).class_name("ParticipantshipInPrivateConversation").
-      with_foreign_key("participant_id").inverse_of(:participant) }
-    it { is_expected.to have_many(:private_conversations).dependent(false).
-      through(:participantships_in_private_conversations).
-      source(:private_conversation) }
-
-    it { is_expected.to have_many(:private_messages_sent).dependent(:destroy).
-      class_name("PrivateMessage").with_foreign_key("sender_id").
-      inverse_of(:sender) }
-
-    it { is_expected.to have_many(:friendship_requests_sent).
-      dependent(:destroy).class_name("FriendshipRequest").
-      with_foreign_key("sender_id") }
-    it { is_expected.to have_many(:friendship_requests_received).
-      dependent(:destroy).class_name("FriendshipRequest").
-      with_foreign_key("recipient_id") }
-
-    it { is_expected.to have_many(:friendships_initiated).
-      dependent(:destroy).class_name("Friendship").
-      with_foreign_key("initiator_id") }
-    it { is_expected.to have_many(:friendships_accepted).
-      dependent(:destroy).class_name("Friendship").
-      with_foreign_key("acceptor_id") }
-
-    it { is_expected.to have_many(:friends_found).dependent(false).
-      through(:friendships_initiated).source(:acceptor) }
-    it { is_expected.to have_many(:friends_made).dependent(false).
-      through(:friendships_accepted).source(:initiator) }
-
   end
 
   describe "validations" do
-    it { is_expected.to validate_presence_of(:profile) }
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_confirmation_of(:password) }
     it { is_expected.to validate_length_of(:password).is_at_least(8).is_at_most(50) }
@@ -105,119 +72,6 @@ RSpec.describe User, type: :model do
     it "returns the username" do
       expect(user.to_param).to eq(user.username)
     end
-  end
-
-  describe "#friends" do
-    let(:friends_made) { build_stubbed_list(:user, 3) }
-    let(:friends_found) { build_stubbed_list(:user, 3) }
-    before do
-      user.friends_made = friends_made
-      user.friends_found = friends_found
-    end
-
-    it "returns friends found and friends made" do
-      expect(user.friends).to match_array(friends_made + friends_found)
-    end
-
-  end
-
-  describe "#has_friendship_with?" do
-    let(:other_user) { build_stubbed(:user) }
-
-    context "when user has friendship" do
-      before { allow(user).to receive(:friends) { [other_user] } }
-
-      it "returns true" do
-        is_expected.to have_friendship_with other_user
-      end
-    end
-
-    context "when user does not have friendship" do
-      before { allow(user).to receive(:friends) { [] } }
-
-      it "returns false" do
-        is_expected.not_to have_friendship_with other_user
-      end
-    end
-  end
-
-  describe "#has_received_friend_request_from?" do
-    let(:other_user) { build(:user) }
-
-    context "when user has received friend request" do
-      before do
-        create(:friendship_request, :sender => other_user, :recipient => user)
-      end
-
-      it "returns true" do
-        is_expected.to have_received_friend_request_from other_user
-      end
-    end
-
-    context "when user does not have received friend request" do
-      before { FriendshipRequest.destroy_all }
-
-      it "returns false" do
-        is_expected.not_to have_received_friend_request_from other_user
-      end
-    end
-  end
-
-  describe "#has_sent_friend_request_to?" do
-    let(:other_user) { build(:user) }
-
-    context "when user has sent friend request" do
-      before do
-        create(:friendship_request, :sender => user, :recipient => other_user)
-      end
-
-      it "returns true" do
-        is_expected.to have_sent_friend_request_to other_user
-      end
-    end
-
-    context "when user does not have sent friend request" do
-      before { FriendshipRequest.destroy_all }
-
-      it "returns false" do
-        is_expected.not_to have_sent_friend_request_to other_user
-      end
-    end
-  end
-
-  describe "#unread_private_conversations" do
-    before { user.save }
-    let!(:conversations) { create_list(:private_conversation, 5, :sender => user) }
-
-    it "returns conversations in the order of most recent activity" do
-      expect(user.private_conversations).
-      to receive(:most_recent_activity_first) { user.private_conversations }
-      user.unread_private_conversations
-    end
-
-    it "returns conversations that were never read" do
-      set_last_read_of_participantships { nil }
-      expect(user.unread_private_conversations).to match_array(conversations)
-    end
-
-    it "returns conversations that are unread" do
-      set_last_read_of_participantships do |p|
-        p.private_conversation.updated_at - 1.second
-      end
-      expect(user.unread_private_conversations).to match_array(conversations)
-    end
-
-    it "does not return read conversations" do
-      set_last_read_of_participantships{ |p| p.private_conversation.updated_at }
-      expect(user.unread_private_conversations).to eq( [] )
-    end
-
-    def set_last_read_of_participantships
-      user.participantships_in_private_conversations.each do |participantship|
-        participantship.update_attributes(read_at: yield(participantship) )
-      end
-    end
-
   end
 
   describe ".to_user" do
@@ -289,7 +143,7 @@ RSpec.describe User, type: :model do
       expect(user.send(:registration_confirmation_path)).
         to eq (
           Rails.application.routes.url_helpers.
-            confirm_registrations_path(
+            confirm_registration_path(
               :email => user.email,
               :registration_token => user.registration_token
             )

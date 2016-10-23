@@ -7,11 +7,11 @@ RSpec.describe "feeds/show.html.erb", type: :view do
     assign(:current_user, build_stubbed(:user))
   end
 
-  it "has a header: Feed" do
+  it "has a header: Conversations" do
    assign(:posts, Post.none)
    render
 
-   expect(rendered).to have_selector("h1", text: "Feed")
+   expect(rendered).to have_selector("h1", text: "Conversations")
   end
 
   it "has a form for creating a new post" do

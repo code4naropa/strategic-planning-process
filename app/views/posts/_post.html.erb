@@ -25,19 +25,15 @@
         </div>
       <% end %>
 
-      <%# PROFILE PICTURE %>
-      <%= link_to profile_path post.author do %>
-        <div class="author_image z-depth-1 grey">
-          <%= image_tag profile_picture post.author.username %>
-        </div>
-      <% end %>
+    <%# PROFILE PICTURE %>
+      <div class="author_image z-depth-1 grey">
+        <%= image_tag profile_picture post.author.username %>
+      </div>
 
       <%# AUTHOR NAME %>
-      <%= link_to profile_path post.author do %>
-        <div class="author_name z-depth-1 indigo white-text">
-          <%= post.author.name %>
-        </div>
-      <% end %>
+      <div class="author_name z-depth-1 indigo white-text">
+        <%= post.author.name %>
+      </div>
 
       <%# CONTENT %>
       <div class="content">

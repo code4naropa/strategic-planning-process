@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>UpshiftNetwork</title>
+    <title>Strategic Plan | Naropa University</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -13,8 +13,15 @@
 
   <%= render "shared/navigation" %>
 
-  <div class="container">
-    <%= yield %>
+  <div class="container-fluid">
+    <div class="row no_margin_bottom">
+      <div id="desktop_side_navigation" class="col l2 hide-on-med-and-down no_padding z-depth-1">
+        <%= render "shared/side_navigation" %>
+      </div>
+      <div class="col l8 push-l1 m12 s12">
+        <%= yield %>
+      </div>
+    </div>
   </div>
 
   <script type="text/javascript">
@@ -43,6 +50,8 @@
       $(document).ready(function(){
         $('.parallax').parallax();
       });
+
+      $("#toggle_mobile_navigation").sideNav();
     });
 
   </script>

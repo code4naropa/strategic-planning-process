@@ -27,25 +27,6 @@ if defined? Bullet
       :class_name => "Democracy::Community::Decision::Comment",
       :association => :likes
 
-  # We need to eager load messages for each conversation. This will cause Bullet
-  # to raise alarm if the number of messages is zero or one. The only way to
-  # selectively eager load, when messages_count > 1, would be using a counter
-  # cache. But that seems inefficient for the task at hand, so we will just
-  # ignore these warnings.
-  Bullet.add_whitelist :type => :unused_eager_loading,
-    :class_name => "PrivateConversation",
-    :association => :messages
-
-  # We need to eager load participants for each conversation (to get the name).
-  # This will cause Bullet to raise alarm if the number of participants is
-  # zero or one.
-  Bullet.add_whitelist :type => :unused_eager_loading,
-    :class_name => "PrivateConversation",
-    :association => :participants
-  Bullet.add_whitelist :type => :unused_eager_loading,
-    :class_name => "ParticipantshipInPrivateConversation",
-    :association => :participant
-
 
   if Rails.env.development?
     Bullet.enable = true
