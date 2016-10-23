@@ -1,8 +1,8 @@
 # Change these
-server 'upshift.network', port: 22, roles: [:web, :app, :db], primary: true
+server '138.68.44.35', port: 22, roles: [:web, :app, :db], primary: true
 
-set :repo_url,        'git@github.com:UpshiftNetwork/upshift.network.git'
-set :application,     'upshift.network'
+set :repo_url,        'git@github.com:code4naropa/strategic-planning-process.git'
+set :application,     'strategic-planning-process'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
