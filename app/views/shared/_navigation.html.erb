@@ -25,12 +25,16 @@
             </li>
 
           </ul>
-          <ul id="mobile_navigation" class="side-nav" >
+        <% end %>
 
-            <%=
-              @community ||= Democracy::Community.first
-              render "shared/side_navigation/community"
-            %>
+        <ul id="mobile_navigation" class="side-nav" >
+
+          <%=
+            @community ||= Democracy::Community.first
+            render "shared/side_navigation/community"
+          %>
+
+          <% if @current_user %>
 
             <li><div class="divider"></div></li>
 
@@ -46,8 +50,9 @@
               <% end %>
             </li>
 
-          </ul>
-        <% end %>
+          <% end %>
+
+        </ul>
       </div>
     </div>
   </div>
