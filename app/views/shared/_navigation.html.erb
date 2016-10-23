@@ -5,11 +5,9 @@
         <%= link_to root_path, class: 'brand-logo' do %>
           <%= image_tag "naropa_logo.png" %>
         <% end %>
-        <% if @current_user %>
-          <a id="toggle_mobile_navigation" href="#" data-activates="mobile_navigation" class="button-collapse">
-            <%= material_icon.menu %>
-          </a>
-        <% end %>
+        <a id="toggle_mobile_navigation" href="#" data-activates="mobile_navigation" class="button-collapse">
+          <%= material_icon.menu %>
+        </a>
 
         <% if @current_user %>
           <ul class="right hide-on-med-and-down">
@@ -27,12 +25,16 @@
             </li>
 
           </ul>
-          <ul id="mobile_navigation" class="side-nav" >
+        <% end %>
 
-            <%=
-              @community ||= Democracy::Community.first
-              render "shared/side_navigation/community"
-            %>
+        <ul id="mobile_navigation" class="side-nav" >
+
+          <%=
+            @community ||= Democracy::Community.first
+            render "shared/side_navigation/community"
+          %>
+
+          <% if @current_user %>
 
             <li><div class="divider"></div></li>
 
@@ -48,8 +50,9 @@
               <% end %>
             </li>
 
-          </ul>
-        <% end %>
+          <% end %>
+
+        </ul>
       </div>
     </div>
   </div>
