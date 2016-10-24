@@ -14,11 +14,34 @@ RSpec.describe "feeds/show.html.erb", type: :view do
    expect(rendered).to have_selector("h1", text: "Conversations")
   end
 
-  it "has a form for creating a new post" do
-   assign(:posts, Post.none)
-   render
+  context "when user is signed in and confirmed" do
+    it "has a form for creating a new post" do
+     assign(:posts, Post.none)
+     assign(:current_user, build_stubbed(:user))
+     render
 
-   expect(rendered).to have_selector("form", text: "Post")
+     expect(rendered).to have_selector("form", text: "Post")
+    end
+  end
+
+  context "when user is signed in but not confirmed" do
+    it "shows a message to confirm email address" do
+     assign(:posts, Post.none)
+     assign(:current_user, build_stubbed(:user, :confirmed_registration => false))
+     render
+
+     expect(rendered).to have_selector("div.notice", text: "Please confirm your email address to create a new post")
+    end
+  end
+
+  context "when user is not signed in" do
+    it "shows a message to confirm email address" do
+     assign(:posts, Post.none)
+     assign(:current_user, nil)
+     render
+
+     expect(rendered).to have_selector("div.notice", text: "Please log in or sign up to create a new post")
+    end
   end
 
   context "when there are posts to show" do
