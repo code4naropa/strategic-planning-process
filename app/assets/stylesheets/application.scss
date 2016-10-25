@@ -13,7 +13,6 @@ $secondary-color: $primary-color;
 
 // App Stylesheets
 @import "side_navigation";
-@import "static";
 @import "post_and_comment";
 @import "like";
 @import "profile";
@@ -41,6 +40,11 @@ $secondary-color: $primary-color;
 // GENERAL: removes all margins
 .no_margin {
   margin: 0px !important;
+}
+
+// GENERAL: adds margin top
+.margin_top_30 {
+  margin-top: 30px !important;
 }
 
 // GENERAL: removes all padding

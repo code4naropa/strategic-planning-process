@@ -44,6 +44,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/about', to: 'static#about'
+  get '/timeline', to: 'static#timeline'
+
   # Root is our community
   root 'democracy/communities#show'
 
