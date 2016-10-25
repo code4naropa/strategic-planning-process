@@ -37,13 +37,6 @@ Rails.application.routes.draw do
   # Conversations
   get 'conversations', to: 'feeds#show', as: :feed
 
-  ### Democracy
-  scope module: 'democracy', shallow: true do
-    resources :communities, only: [:index, :show], module: 'community' do
-      resources :decisions, only: [:index, :show, :new, :create]
-    end
-  end
-
   get '/about', to: 'static#about'
   get '/timeline', to: 'static#timeline'
 

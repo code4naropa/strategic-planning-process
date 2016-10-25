@@ -2,7 +2,7 @@
 
   <%= image_tag "naropa.jpg", class: 'responsive-img' %>
 
-  <%= link_to community_path(@community), class: 'title waves-light waves-effect' do %>
+  <%= link_to root_path, class: 'title waves-light waves-effect' do %>
     <%= @community.name %>
   <% end %>
 
@@ -12,8 +12,6 @@
 
   <%= nav_link "About", about_path %>
   <%= nav_link "Timeline", timeline_path %>
-  <%= nav_link "Decisions", community_decisions_path(@community), "democracy/community/decisions" %>
   <%= nav_link "Conversations", feed_path %>
-
 
 </div>
