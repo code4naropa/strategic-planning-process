@@ -31,18 +31,11 @@ Rails.application.routes.draw do
   post '/:commentable_type/:commentable_id/comment', to: 'comments#create', as: :comment
   delete '/comments/:id', to: 'comments#destroy', as: :delete_comment
 
-  # Votes Path
-  resources :votes, only: [:create, :update, :destroy], :path => "vote"
-
   # Conversations
   get 'conversations', to: 'feeds#show', as: :feed
 
-  ### Democracy
-  scope module: 'democracy', shallow: true do
-    resources :communities, only: [:index, :show], module: 'community' do
-      resources :decisions, only: [:index, :show, :new, :create]
-    end
-  end
+  get '/about', to: 'static#about'
+  get '/timeline', to: 'static#timeline'
 
   # Root is our community
   root 'democracy/communities#show'

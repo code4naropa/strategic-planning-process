@@ -9,45 +9,80 @@
           <%= material_icon.menu %>
         </a>
 
-        <% if @current_user %>
-          <ul class="right hide-on-med-and-down">
+        <ul class="right hide-on-med-and-down">
 
-            <li>
-              <%= link_to "#", class: 'tooltipped', data: {position: 'bottom', delay: '50', tooltip: 'Settings'} do %>
-                <%= material_icon.account_circle %>
-              <% end %>
-            </li>
-
-            <li>
-              <%= link_to logout_path, class: 'tooltipped', data: {position: 'bottom', delay: '50', tooltip: 'Logout'} do %>
-                <%= material_icon.power_settings_new %>
-              <% end %>
-            </li>
-
-          </ul>
-          <ul id="mobile_navigation" class="side-nav" >
-
-            <%=
-              @community ||= Democracy::Community.first
-              render "shared/side_navigation/community"
-            %>
-
-            <li><div class="divider"></div></li>
+          <% if @current_user %>
 
             <li>
               <%= link_to "#" do %>
-                <%= material_icon.account_circle %> My Profile
+                <%= material_icon.account_circle.css_class('left') %> My Account
               <% end %>
             </li>
 
             <li>
               <%= link_to logout_path do %>
-                <%= material_icon.power_settings_new %> Logout
+                <%= material_icon.power_settings_new.css_class('left') %> Log Out
               <% end %>
             </li>
 
-          </ul>
-        <% end %>
+          <% else %>
+
+            <li>
+              <%= link_to new_registration_path do %>
+                <%= material_icon.person_add.css_class('left') %> Sign Up
+              <% end %>
+            </li>
+
+            <li>
+              <%= link_to login_path do %>
+                <%= material_icon.vpn_key.css_class('left') %> Log In
+              <% end %>
+            </li>
+
+          <% end %>
+        </ul>
+
+
+        <ul id="mobile_navigation" class="side-nav" >
+
+          <%=
+            @community ||= Democracy::Community.first
+            render "shared/side_navigation/community"
+          %>
+
+          <li><div class="divider"></div></li>
+
+          <% if @current_user %>
+
+            <li>
+              <%= link_to "#" do %>
+                <%= material_icon.account_circle %> My Account
+              <% end %>
+            </li>
+
+            <li>
+              <%= link_to logout_path do %>
+                <%= material_icon.power_settings_new %> Log Out
+              <% end %>
+            </li>
+
+          <% else %>
+
+            <li>
+              <%= link_to new_registration_path do %>
+                <%= material_icon.person_add %> Sign Up
+              <% end %>
+            </li>
+
+            <li>
+              <%= link_to login_path do %>
+                <%= material_icon.vpn_key %> Log In
+              <% end %>
+            </li>
+
+          <% end %>
+
+        </ul>
       </div>
     </div>
   </div>
