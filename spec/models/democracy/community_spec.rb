@@ -8,10 +8,6 @@ RSpec.describe Democracy::Community, type: :model do
     is_expected.to be_valid
   end
 
-  describe "associations" do
-    it { is_expected.to have_many(:decisions).dependent(:destroy) }
-  end
-
   describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
   end
