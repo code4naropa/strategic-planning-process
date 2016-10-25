@@ -8,4 +8,10 @@ RSpec.describe "routes for static", :type => :routing do
     )
   end
 
+  it "routes to timeline page" do
+    expect(:get => "/timeline").to route_to(
+      :controller => "static",
+      :action => "timeline"
+    )
+  end
 end
