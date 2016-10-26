@@ -22,28 +22,6 @@ class User < ApplicationRecord
   # name
   validates :name, presence: true
 
-  # Username
-  validates :username,
-    format: {
-      with: /\A[a-zA-Z0-9_]+\z/,
-      message: "must consist of upper- and lowercase letters, numbers and " +
-        "underscores only"
-    }
-  validates :username,
-    format: {
-      with: /\A[a-zA-Z0-9]{1}/,
-      message: "must start with a letter or number"
-    }
-  validates :username,
-    format: {
-      with: /[a-zA-Z0-9]{1}\z/,
-      message: "must end with a letter or number"
-    }
-  validates :username,
-    length: { in: 3..26 }
-  validates :username,
-    uniqueness: { :case_sensitive => false }
-
   # Email
   validates :email, presence: true
   validates :email, format: {

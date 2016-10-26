@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161026035036) do
+ActiveRecord::Schema.define(version: 20161026051827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(version: 20161026035036) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
-    t.citext   "username",                               null: false
     t.string   "password_digest"
     t.string   "name"
     t.datetime "last_seen_at"
@@ -93,7 +92,6 @@ ActiveRecord::Schema.define(version: 20161026035036) do
     t.string   "registration_token"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["registration_token"], name: "index_users_on_registration_token", unique: true, using: :btree
-    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
   create_table "votes", force: :cascade do |t|

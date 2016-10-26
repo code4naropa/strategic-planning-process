@@ -46,26 +46,6 @@ RSpec.describe User, type: :model do
 
     end
 
-    it { is_expected.to validate_length_of(:username).is_at_least(3).is_at_most(26) }
-    it { is_expected.to validate_uniqueness_of(:username).case_insensitive }
-
-    context "validates format of username" do
-      it "must not contain special characters" do
-        user.username = "a*<>$@/r"
-        is_expected.to be_invalid
-      end
-
-      it "must not begin with an underscore" do
-        user.username = "_" + user.username
-        is_expected.to be_invalid
-      end
-
-      it "must not end with an underscore" do
-        user.username += "_"
-        is_expected.to be_invalid
-      end
-
-    end
   end
 
   describe "#to_param" do
