@@ -37,11 +37,10 @@ feature 'Login' do
   end
 
   def and_i_submit_my_information
-    fill_in 'Name',                   with: @user.name
-    fill_in 'Username',               with: @user.username
-    fill_in 'Email',                  with: @user.email
-    fill_in 'Password',               with: @user.password
-    fill_in 'Confirm your password',  with: @user.password
+    fill_in 'Name',                       with: @user.name
+    fill_in 'Your Naropa email address',  with: @user.email
+    fill_in 'Password',                   with: @user.password
+    fill_in 'Confirm your password',      with: @user.password
     click_button 'Sign Up'
   end
 

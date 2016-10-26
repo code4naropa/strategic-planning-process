@@ -39,16 +39,6 @@ class User < ApplicationRecord
 
   # before_validation :create_profile_if_not_exists, on: :create
 
-  # We want to always use username in routes
-  def to_param
-    username
-  end
-
-  # when printing the record to the screen
-  def to_s
-    username
-  end
-
   # send the registration email
   def send_registration_email
     Mailjet::Send.create(
@@ -70,14 +60,6 @@ class User < ApplicationRecord
   end
 
   # # Class Methods
-
-  # converts the input to User
-  def self.to_user input
-    return nil unless input
-    return input if input.is_a?(User)
-    return User.find_by_username(input) if input.is_a?(String)
-    raise ArgumentError.new("User.to_user only supports types User and String")
-  end
 
   private
     # return the path for confirming the registration
