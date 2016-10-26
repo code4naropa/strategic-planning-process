@@ -1,7 +1,7 @@
 class Like < ApplicationRecord
 
   def self.likable_types
-    ["Post", "Comment"]
+    ["Post", "Comment", "Idea"]
   end
 
   # # Associations
