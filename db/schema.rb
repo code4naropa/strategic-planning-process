@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161016184819) do
+ActiveRecord::Schema.define(version: 20161026051827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,15 @@ ActiveRecord::Schema.define(version: 20161016184819) do
     t.index ["created_at"], name: "index_democracy_community_decisions_on_created_at", using: :btree
   end
 
+  create_table "ideas", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.integer  "author_id"
+    t.text     "content"
+    t.integer  "likes_count", default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["author_id"], name: "index_ideas_on_author_id", using: :btree
+  end
+
   create_table "likes", force: :cascade do |t|
     t.integer  "liker_id"
     t.uuid     "likable_id"
@@ -74,7 +83,6 @@ ActiveRecord::Schema.define(version: 20161016184819) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
-    t.citext   "username",                               null: false
     t.string   "password_digest"
     t.string   "name"
     t.datetime "last_seen_at"
@@ -84,7 +92,6 @@ ActiveRecord::Schema.define(version: 20161016184819) do
     t.string   "registration_token"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["registration_token"], name: "index_users_on_registration_token", unique: true, using: :btree
-    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
   create_table "votes", force: :cascade do |t|
@@ -101,6 +108,7 @@ ActiveRecord::Schema.define(version: 20161016184819) do
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "democracy_community_decisions", "democracy_communities", column: "community_id"
   add_foreign_key "democracy_community_decisions", "users", column: "author_id"
+  add_foreign_key "ideas", "users", column: "author_id"
   add_foreign_key "likes", "users", column: "liker_id"
   add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "votes", "users", column: "voter_id"

@@ -39,102 +39,29 @@ RSpec.describe User, type: :model do
         is_expected.to be_invalid
       end
 
-      it "passes actual email addresses" do
-        user.email = "email@example.com"
+      it "passes actual Naropa email addresses" do
+        user.email = "email@naropa.edu"
         is_expected.to be_valid
       end
 
-    end
+      it "passes @students.naropa.edu" do
+        user.email = "email@naropa.edu"
+        is_expected.to be_valid
+      end
 
-    it { is_expected.to validate_length_of(:username).is_at_least(3).is_at_most(26) }
-    it { is_expected.to validate_uniqueness_of(:username).case_insensitive }
-
-    context "validates format of username" do
-      it "must not contain special characters" do
-        user.username = "a*<>$@/r"
+      it "does not pass a fake email address" do
+        user.email = "email@notnaropa.edu"
         is_expected.to be_invalid
       end
 
-      it "must not begin with an underscore" do
-        user.username = "_" + user.username
+      it "does not pass a fake email address" do
+        user.email = "email@gmail.com"
         is_expected.to be_invalid
       end
 
-      it "must not end with an underscore" do
-        user.username += "_"
-        is_expected.to be_invalid
-      end
 
     end
-  end
 
-  describe "#to_param" do
-    it "returns the username" do
-      expect(user.to_param).to eq(user.username)
-    end
-  end
-
-  describe ".to_user" do
-
-    context "when input is a string" do
-      let(:user) { create(:user) }
-
-      it "returns the user" do
-        expect(User.to_user(user.username)).to eq(user)
-      end
-    end
-
-    context "when input is a User" do
-      let(:user) { create(:user) }
-
-      it "returns the user" do
-        expect(User.to_user(user)).to eq(user)
-      end
-    end
-
-    context "when input is a number" do
-      it "raises an error" do
-        expect{ User.to_user(1) }.to raise_error(ArgumentError)
-      end
-    end
-
-    context "when input is nil" do
-      it "returns nil" do
-        expect(User.to_user(nil)).to be_nil
-      end
-    end
-
-  end
-
-  describe "#send_registration_email" do
-    before { allow(Mailjet::Send).to receive(:create) }
-    after { user.send_registration_email }
-
-    it "calls registration confirmation path" do
-      expect(user).to receive(:registration_confirmation_path)
-    end
-
-    it "sends an email" do
-      registration_confirmation_path = instance_double(String)
-      allow(user).
-        to receive(:registration_confirmation_path).
-        and_return( registration_confirmation_path )
-      expect(Mailjet::Send).to receive(:create).with(
-        "FromEmail": "hello@upshift.network",
-        "FromName": "Upshift Network",
-        "Subject": "Please Confirm Your Registration",
-        "Mj-TemplateID": ENV['USER_REGISTRATION_EMAIL_TEMPLATE_ID'],
-        "Mj-TemplateLanguage": "true",
-        "Mj-trackclick": "1",
-        recipients: [{
-          'Email' => user.email,
-          'Name' => user.name}],
-        vars: {
-          "NAME" => user.name,
-          "CONFIRMATION_PATH" => registration_confirmation_path
-        }
-      )
-    end
   end
 
   describe "#registration_confirmation_path" do

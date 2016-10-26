@@ -1,7 +1,7 @@
-<div class="row post-wrapper post_form">
+<div class="row idea-wrapper idea_form">
   <div class="col s12">
 
-    <div class="post z-depth-1">
+    <div class="idea z-depth-1">
 
       <%# PROFILE PICTURE %>
       <div class="author_image z-depth-1 grey">
@@ -15,15 +15,15 @@
 
       <%# CONTENT %>
       <div class="row content no_margin">
-        <%= form_for post, class: "col s12"  do |f| %>
+        <%= form_for idea, class: "col s12"  do |f| %>
 
           <div class="row no_margin_bottom">
-            <% if post.errors.any? %>
+            <% if idea.errors.any? %>
               <div id="error_explanation">
-                <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+                <h2><%= pluralize(idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
 
                 <ul>
-                <% post.errors.full_messages.each do |message| %>
+                <% idea.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
                 <% end %>
                 </ul>
@@ -33,15 +33,15 @@
 
           <div class="row no_margin_bottom">
             <div class="input-field col s12 grey darken-4">
-              <%= f.text_area :content, class: "materialize-textarea" %>
-              <%= f.label :content, "What's on your mind?" %>
+              <%= f.text_area :content, class: "materialize-textarea with_counter", length: "250" %>
+              <%= f.label :content, "What should Naropa aspire to?" %>
             </div>
           </div>
 
           <div class="row no_margin_bottom">
             <div class="col s12">
               <button class="btn waves-effect waves-light" type="submit" name="action">
-                Post <i class="material-icons right">send</i>
+                Add idea
               </button>
             </div>
           </div>

@@ -1,0 +1,69 @@
+<div class="row idea-wrapper">
+  <div class="col l12 m12 s12">
+
+    <div class="idea z-depth-1">
+
+      <%# DELETE POST %>
+      <% if idea.deletable_by?(@current_user) %>
+        <div class="administrative-actions right">
+          <!-- Dropdown Trigger -->
+          <%= link_to '#',
+                class: "dropdown-button btn-flat tooltipped",
+                data: {
+                  activates: "dropdown-#{idea.id}",
+                  alignment: 'right', delay: '50', tooltip: 'Show Options'
+                } do %>
+            <%= material_icon.settings %>
+          <% end %>
+
+          <!-- Dropdown Structure -->
+          <ul id='dropdown-<%= idea.id %>' class='dropdown-content'>
+            <li>
+              <%= link_to 'Delete Idea', idea, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </li>
+          </ul>
+        </div>
+      <% end %>
+
+    <%# PROFILE PICTURE %>
+      <div class="author_image z-depth-1 grey">
+        <%= image_tag profile_picture idea.author.email %>
+      </div>
+
+      <%# AUTHOR NAME %>
+      <div class="author_name z-depth-1 indigo white-text">
+        <%= idea.author.name %>
+      </div>
+
+      <%# CONTENT %>
+      <div class="content">
+        <%= simple_format h(idea.content) %>
+      </div>
+
+      <div class="actions row no_margin_bottom">
+
+        <%# LIKE & UNLIKE %>
+        <div class="col s6 no_padding">
+        <% if idea.likable_by?(@current_user) %>
+          <%= like_action idea, "sliding" %>
+        <% elsif idea.unlikable_by?(@current_user) %>
+          <%= unlike_action idea, "sliding" %>
+        <% else %>
+          <button class="btn-flat disabled">
+            <span>
+              <%= material_icon.thumb_up.css_class('left') %>
+              <%= idea.likes_count || 0 %>
+            </span>
+          </button>
+        <% end %>
+        </div>
+
+        <%# TIMESTAMP %>
+        <div class="col s6 no_padding right-align">
+          <%= link_to render_timestamp(idea.created_at), idea, class: "btn-flat waves-effect waves-red tooltipped", data: {position: 'bottom', delay: '50', tooltip: "Show idea on a separate page"} %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

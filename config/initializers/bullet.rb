@@ -15,6 +15,10 @@ if defined? Bullet
     :class_name => "Post",
     :association => :likes
 
+  Bullet.add_whitelist :type => :unused_eager_loading,
+    :class_name => "Idea",
+    :association => :likes
+
   # We need to eager load a comment's likes, so that we can determine whether
   # the object can or cannot be liked by a user. This however is causing Bullet
   # to erraneously report "unused eager loading". If the eager loading is

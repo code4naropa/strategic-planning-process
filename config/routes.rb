@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # Posts
   resources :posts, only: [:new, :create, :show, :destroy], :path => "post"
 
+  # Ideas
+  resources :ideas, only: [:index, :create, :show, :destroy]
+
   # Like Path
   post '/:likable_type/:likable_id/like', to: 'likes#create', as: :like
   delete '/:likable_type/likable_id/like', to: 'likes#destroy', as: :unlike
@@ -38,6 +41,6 @@ Rails.application.routes.draw do
   get '/timeline', to: 'static#timeline'
 
   # Root is our community
-  root 'democracy/communities#show'
+  root 'static#root'
 
 end

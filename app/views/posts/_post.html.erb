@@ -27,7 +27,7 @@
 
     <%# PROFILE PICTURE %>
       <div class="author_image z-depth-1 grey">
-        <%= image_tag profile_picture post.author.username %>
+        <%= image_tag profile_picture post.author.email %>
       </div>
 
       <%# AUTHOR NAME %>
@@ -43,16 +43,23 @@
       <div class="actions row no_margin_bottom">
 
         <%# LIKE & UNLIKE %>
-        <div class="col s12 m6">
+        <div class="col s6 no_padding">
         <% if post.likable_by?(@current_user) %>
           <%= like_action post, "sliding" %>
         <% elsif post.unlikable_by?(@current_user) %>
           <%= unlike_action post, "sliding" %>
+        <% else %>
+          <button class="btn-flat disabled">
+            <span>
+              <%= material_icon.thumb_up.css_class('left') %>
+              <%= post.likes_count || 0 %>
+            </span>
+          </button>
         <% end %>
         </div>
 
         <%# TIMESTAMP %>
-        <div class="col s12 m6 right-align">
+        <div class="col s6 no_padding right-align">
           <%= link_to render_timestamp(post.created_at), post, class: "btn-flat waves-effect waves-red tooltipped", data: {position: 'bottom', delay: '50', tooltip: "Show post on a separate page"} %>
         </div>
       </div>
