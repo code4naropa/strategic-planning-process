@@ -28,6 +28,10 @@ class User < ApplicationRecord
     with: /\A\S+@\S+\.\S+\z/,
     message: "seems invalid"
   }
+  validates :email, format: {
+    with: /\A\S+@(\S+\.){0,1}naropa\.edu\z/,
+    message: "must be a Naropa email address"
+  }
   validates :email,
     uniqueness: { :case_sensitive => false }
 
