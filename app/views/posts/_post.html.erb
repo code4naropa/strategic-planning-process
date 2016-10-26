@@ -48,6 +48,13 @@
           <%= like_action post, "sliding" %>
         <% elsif post.unlikable_by?(@current_user) %>
           <%= unlike_action post, "sliding" %>
+        <% else %>
+          <button class="btn-flat disabled">
+            <span>
+              <%= material_icon.thumb_up.css_class('left') %>
+              <%= post.likes_count || 0 %>
+            </span>
+          </button>
         <% end %>
         </div>
 
