@@ -39,10 +39,26 @@ RSpec.describe User, type: :model do
         is_expected.to be_invalid
       end
 
-      it "passes actual email addresses" do
-        user.email = "email@example.com"
+      it "passes actual Naropa email addresses" do
+        user.email = "email@naropa.edu"
         is_expected.to be_valid
       end
+
+      it "passes @students.naropa.edu" do
+        user.email = "email@naropa.edu"
+        is_expected.to be_valid
+      end
+
+      it "does not pass a fake email address" do
+        user.email = "email@notnaropa.edu"
+        is_expected.to be_invalid
+      end
+
+      it "does not pass a fake email address" do
+        user.email = "email@gmail.com"
+        is_expected.to be_invalid
+      end
+
 
     end
 
