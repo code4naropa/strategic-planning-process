@@ -42,8 +42,8 @@ class User < ApplicationRecord
   # send the registration email
   def send_registration_email
     Mailjet::Send.create(
-      "FromEmail": "hello@upshift.network",
-      "FromName": "Upshift Network",
+      "FromEmail": "fwoelm@students.naropa.edu",
+      "FromName": "Strategic Planning Process (Demo)",
       "Subject": "Please Confirm Your Registration",
       "Mj-TemplateID": ENV['USER_REGISTRATION_EMAIL_TEMPLATE_ID'],
       "Mj-TemplateLanguage": "true",
